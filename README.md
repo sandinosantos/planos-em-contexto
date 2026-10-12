@@ -20,6 +20,8 @@ Não há etapa de build. Sirva a pasta `dist/` com um servidor HTTP estático e 
 
 O site atual está hospedado no Cloudflare Pages como `planos-em-contexto`. O projeto Cloudflare existente usa Direct Upload; por isso, alterações devem passar por revisão e ser publicadas no painel ou por um fluxo de CI/CD autorizado.
 
+Há um fluxo manual em `.github/workflows/deploy-cloudflare.yml`. Para ativá-lo, um administrador deve cadastrar no repositório os segredos `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN` e depois executar a ação pela aba Actions. O token deve ter somente a permissão necessária para editar Pages; nunca coloque o valor do token em arquivos ou commits.
+
 ## Privacidade e escopo
 
 As respostas do visitante permanecem na memória do navegador. Este repositório deve permanecer privado. Não inclua tokens, credenciais, dados pessoais ou arquivos ZIP no Git.
