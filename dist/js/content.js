@@ -17,7 +17,7 @@ window.siteContent = {
     pageTitle: 'Planos em Contexto',
     description: 'Propostas e declarações públicas em contexto. Uma leitura informativa, com fontes e incertezas, a partir de respostas opcionais.',
     themeColor: '#f3f1eb',
-    revision: '13/10/2026'
+    revision: '13/10/2026 · modelo experimental'
   },
 
   navigation: [
@@ -53,7 +53,7 @@ window.siteContent = {
       title: 'Fontes abertas',
       description: 'Planos e publicações. Leia no original.'
     },
-    note: 'Não é recomendação de voto nem previsão de resultados. As respostas ficam apenas na memória desta página e se apagam ao recarregar. Não pedimos nome, CPF ou endereço.'
+    note: 'Modelo experimental para teste: esta versão aplica regras adicionais de interseção entre renda da casa, moradores, despesas essenciais e jornada. Não é recomendação de voto nem previsão de resultados. As respostas ficam apenas na memória desta página e se apagam ao recarregar. Não pedimos nome, CPF ou endereço.'
   },
 
   pages: {
@@ -446,6 +446,7 @@ window.siteContent = {
           candidateRules: {
             lula: [
               { effect: 'improvement', when: [{ field: 'workSchedule', op: 'equalsAny', values: ['45 a 54 horas por semana', '55 horas ou mais por semana', 'Escala 6×1 ou trabalho frequente aos fins de semana'] }], confidence: 'medium', text: 'Redução de jornada sem redução salarial poderia ampliar tempo disponível e reduzir exposição a jornadas longas, se aprovada e aplicada ao vínculo.' },
+              { effect: 'improvement', when: [{ field: 'workSchedule', op: 'equalsAny', values: ['Escala 6×1 ou trabalho frequente aos fins de semana'] }, { field: 'householdNeeds', op: 'hasAny', values: ['Crianças ou adolescentes em idade escolar', 'Pessoa idosa', 'Pessoa com deficiência ou necessidade contínua de cuidado'] }], confidence: 'medium', text: 'Modelo experimental: para quem combina escala 6×1 com responsabilidades de cuidado, uma folga adicional ou jornada menor pode liberar tempo de cuidado e reduzir a pressão de conciliação. O efeito depende da escala aprovada e da oferta local de serviços.' },
               { effect: 'pressure', when: [{ field: 'businessLabor', op: 'equalsAny', values: ['Há de 1 a 5 empregados com carteira', 'Há de 6 a 20 empregados com carteira', 'Há mais de 20 empregados com carteira'] }], confidence: 'low', text: 'Como responsável por negócio com empregados, você poderia enfrentar custos de reorganização de escalas ou contratação; o plano não permite calcular esse custo.' }
             ],
             flavio: [
@@ -463,6 +464,7 @@ window.siteContent = {
           candidateRules: {
             lula: [
               { effect: 'improvement', when: [{ field: 'essentialBurden', op: 'equalsAny', values: ['De 71% a 90%', 'Mais de 90%'] }], confidence: 'medium', text: 'Alívio sobre consumo e políticas de renda teriam maior importância para um orçamento já muito comprometido, sem permitir estimar valor.' },
+              { effect: 'improvement', when: [{ field: 'householdDisposableIncome', op: 'equalsAny', values: ['Até R$ 1.600', 'Acima de R$ 1.600 até R$ 3.200'] }, { field: 'residents', op: 'equalsAny', values: ['4 pessoas', '5 pessoas', '6 pessoas ou mais'] }, { field: 'essentialBurden', op: 'equalsAny', values: ['De 71% a 90%', 'Mais de 90%'] }], confidence: 'medium', text: 'Modelo experimental: quando uma renda doméstica baixa sustenta quatro ou mais pessoas e as despesas essenciais já consomem grande parte do orçamento, medidas distributivas tendem a ter maior relevância relativa. Isso não calcula ganho em reais nem confirma elegibilidade.' },
               { effect: 'pressure', when: [{ field: 'capitalShare', op: 'equalsAny', values: ['De 51% a 75%', 'Mais de 75%'] }], confidence: 'low', text: 'Maior tributação progressiva sobre renda ou patrimônio pode atingir parte dos rendimentos de capital, dependendo das regras e limites aprovados.' }
             ],
             flavio: [
@@ -526,6 +528,7 @@ window.siteContent = {
           contextFields: ['region', 'gender', 'race', 'religion'],
           relevanceRules: [
             { when: [{ field: 'region', op: 'present' }], score: 2, reason: 'a taxa regional oferece uma referência estatística ampla, não risco pessoal.' },
+            { when: [{ field: 'region', op: 'present' }, { field: 'race', op: 'equalsAny', values: ['Preta', 'Parda'] }], score: 3, reason: 'o recorte regional e racial torna a desigualdade populacional mais relevante para a leitura, sem converter a taxa em risco individual.' },
             { when: [{ field: 'gender', op: 'equalsAny', values: ['Mulher'] }], score: 2, reason: 'políticas específicas de violência contra mulheres são diretamente relevantes.' },
             { when: [{ field: 'race', op: 'equalsAny', values: ['Preta', 'Parda'] }], score: 2, reason: 'o Atlas permite um recorte regional específico para pessoas pretas e pardas.' }
           ],

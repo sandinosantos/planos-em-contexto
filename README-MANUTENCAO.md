@@ -123,6 +123,18 @@ Use:
 
 Não invente novos `field` ou `topic` sem conferir como eles são usados no restante do código. Os IDs atuais dos candidatos são `lula` e `flavio`; os IDs dos temas estão no array `topics`.
 
+### 3.5 Teste experimental de 13/10/2026
+
+Esta versão contém regras experimentais para tornar visível o efeito da revisão das fontes:
+
+- uma família com renda doméstica nas duas faixas mais baixas, quatro ou mais moradores e despesas essenciais acima de 70% ativa uma leitura adicional no tema de custo de vida;
+- uma pessoa em escala 6×1 que também informou responsabilidade de cuidado ativa uma leitura adicional no tema de trabalho;
+- região mais raça/cor preta ou parda eleva a relevância editorial de segurança para alta, sem alterar a taxa estatística nem transformar desigualdade populacional em risco individual.
+
+Essas regras servem para teste de funcionamento e ainda não são uma versão metodológica definitiva. A página identifica o estado como `modelo experimental`. O ponto de restauração anterior está marcado no Git com `backup-before-external-model-test-20261013`, apontando para a versão imediatamente anterior ao teste.
+
+Para desfazer o experimento no trabalho local, compare com essa tag e restaure os arquivos alterados conscientemente. Não use reset destrutivo em trabalho que contenha mudanças de outra pessoa; prefira criar uma branch a partir da tag ou reverter o commit experimental.
+
 ## 4. Conteúdo: como editar
 
 ### 4.1 Alterar um texto exibido
