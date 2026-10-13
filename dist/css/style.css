@@ -283,6 +283,18 @@ input { width: 17px; height: 17px; flex: none; accent-color: var(--ink); }
 .impact-grid p { margin: 8px 0 0; font-size: 13px; line-height: 1.65; }
 .impact-candidate-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .impact-direction { padding: 5px 8px; border-radius: 3px; background: var(--soft); color: var(--muted); font: 10px ui-monospace, monospace; text-transform: uppercase; }
+.score-breakdown { display: grid; gap: 5px; margin-top: 14px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); }
+.score-row { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.score-row strong { font: 12px ui-monospace, monospace; color: var(--ink); }
+.score-history { padding-top: 5px; border-top: 1px solid var(--line); }
+.score-combined { color: var(--ink); }
+.history-block { margin-top: 14px; padding: 12px; border: 1px solid var(--line); background: #f7f4ed; }
+.history-block > b { font-size: 11px; }
+.history-block ul { margin: 8px 0 0; padding-left: 17px; }
+.history-block li { margin: 7px 0; font-size: 12px; line-height: 1.55; }
+.effect-context { color: var(--muted); }
+.history-source { margin: 5px 0 0; font-size: 10px; line-height: 1.45; color: var(--muted); }
+.history-source .badge { margin: 0 5px 0 0; }
 .effect-list { margin-top: 12px; padding: 12px; border-radius: 3px; }
 .effect-list b { display: block; margin-bottom: 7px; }
 .effect-list ul { margin: 0; padding-left: 17px; }

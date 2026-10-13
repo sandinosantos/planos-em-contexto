@@ -17,6 +17,7 @@ const {
   topics,
   statements,
   evidenceSources,
+  historicalSources,
   incomeBands,
   questions,
   answersToSkip: skip,
@@ -203,7 +204,17 @@ function profileImpactCard(topic) {
   const confidenceRank = { low: 1, medium: 2, high: 3 };
   const confidenceLevel = [lula.confidence, flavio.confidence].sort((a, b) => confidenceRank[b] - confidenceRank[a])[0];
   const effectList = (label, items, className) => items.length ? `<div class="effect-list ${className}"><b>${esc(label)}</b><ul>${items.map(item => `<li>${esc(item)}</li>`).join('')}</ul></div>` : '';
-  const scoreBlock = (candidateName, result, narrative) => `<div class="impact-candidate"><div class="impact-candidate-top"><b>${esc(candidateName)}</b><span class="impact-direction">${esc(result.scoreLabel)}</span></div>${effectList(copy.possibleUpside, result.improvements, 'effect-positive')}${effectList(copy.possiblePressure, result.pressures, 'effect-negative')}${!result.reasons.length ? `<p>${esc(copy.noSpecificRule)}</p>` : ''}<p class="impact-narrative">${esc(narrative)}</p><small>${esc(copy.confidenceLabel)}: ${esc(result.confidenceText)}</small></div>`;
+  const scoreRow = (label, value, className) => `<div class="score-row ${className}"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`;
+  const relationLabels = { direct: 'ação direta', base: 'governo/base associada', context: 'contexto; não autoria pessoal' };
+  const historySource = item => {
+    const source = historicalSources.find(candidateSource => candidateSource.id === item.sourceId);
+    if (!source) return '';
+    return `<p class="history-source"><span class="badge">${esc(relationLabels[item.relation] || relationLabels.context)}</span> ${link(source.url, source.institution)} · ${esc(source.status)}</p>`;
+  };
+  const historyMarkup = result => result.historyContext.length || result.historyImprovements.length || result.historyPressures.length
+    ? `<div class="history-block"><b>${esc(copy.historicalContextTitle)}</b><p class="mini muted">${esc(copy.historicalContextNote)}</p><ul>${result.historyContext.map(item => `<li class="effect-context">${esc(item.text)}${historySource(item)}</li>`).join('')}${result.historyImprovements.map(item => `<li class="effect-positive">${esc(item.text)}${historySource(item)}</li>`).join('')}${result.historyPressures.map(item => `<li class="effect-negative">${esc(item.text)}${historySource(item)}</li>`).join('')}</ul></div>`
+    : '';
+  const scoreBlock = (candidateName, result, narrative) => `<div class="impact-candidate"><div class="impact-candidate-top"><b>${esc(candidateName)}</b><span class="impact-direction">${esc(result.scoreLabel)}</span></div><div class="score-breakdown">${scoreRow(copy.currentProposalLabel, result.proposalScoreText, 'score-proposal')}${scoreRow(copy.historicalContextLabel, result.historyScoreText, 'score-history')}${scoreRow(copy.combinedScoreLabel, result.scoreText, 'score-combined')}</div>${effectList(copy.possibleUpside, result.improvements, 'effect-positive')}${effectList(copy.possiblePressure, result.pressures, 'effect-negative')}${historyMarkup(result)}${!result.reasons.length && !result.historyContext.length && !result.historyImprovements.length && !result.historyPressures.length ? `<p>${esc(copy.noSpecificRule)}</p>` : ''}<p class="impact-narrative">${esc(narrative)}</p><small>${esc(copy.confidenceLabel)}: ${esc(result.confidenceText)}</small></div>`;
   const risk = topic.id === 'security' ? impactEngine.regionalSafety(profile) : null;
   const riskMarkup = risk ? `<div class="statistical-risk"><div><span class="eyebrow">${esc(copy.statisticalRiskLabel)}</span><strong>${esc(risk.rate.toFixed(1).replace('.', ','))} por 100 mil</strong><b>${esc(risk.percentage.toFixed(4).replace('.', ','))}% ao ano</b></div><p>Referência: ${esc(risk.group)}, ${esc(risk.region)}, ${esc(risk.year)}. Taxa total da região: ${esc(risk.totalRate.toFixed(1).replace('.', ','))} por 100 mil (${esc(risk.totalPercentage.toFixed(4).replace('.', ','))}%).</p><p class="mini muted">${esc(copy.statisticalRiskWarning)}</p><p class="mini">Fonte: ${link(risk.sourceUrl, risk.source)}</p></div>` : '';
   return `<section class="profile-impact"><div class="eyebrow">${esc(copy.profileImpactLabel)}</div><p class="profile-impact-intro">${esc(copy.profileImpactIntro)} ${esc(copy.scoreScale)}.</p><p class="profile-signals"><b>${esc(copy.profileSignals)}:</b> ${esc(lula.signals)}</p>${riskMarkup}<div class="impact-meta"><span><b>${esc(copy.relevanceLabel)}:</b> ${esc(lula.relevanceText)}</span><span><b>${esc(copy.confidenceLabel)}:</b> ${esc(copy.confidenceLevels[confidenceLevel])}</span></div><div class="impact-grid"><div>${scoreBlock(names.lula, lula, impact.lula)}</div><div>${scoreBlock(names.flavio, flavio, impact.flavio)}</div><div class="impact-caveat"><b>${esc(copy.tradeoff)}</b><p>${esc(impact.caveat)}</p></div></div></section>`;
@@ -262,6 +273,15 @@ function sourceRecords() {
       date: source.date,
       meta: `${source.institution} · ${source.note}`,
       url: source.url
+    })),
+    ...historicalSources.map(source => ({
+      candidate: source.candidate,
+      topic: source.topic,
+      type: 'history',
+      title: source.title,
+      date: source.date,
+      meta: `${source.institution} · ${source.relation} · ${source.status}. ${source.note}`,
+      url: source.url
     }))
   ];
 }
@@ -275,13 +295,13 @@ function sources() {
   const filterOptions = [
     ['candidate', copy.filters.candidate, [['all', copy.filters.all], ...Object.entries(names), ['evidence', copy.evidenceType]]],
     ['topic', copy.filters.topic, [['all', copy.filters.all], ...topics.map(topic => [topic.id, topic.title])]],
-    ['type', copy.filters.type, [['all', copy.filters.all], ['plan', copy.filters.plan], ['statement', copy.filters.statement], ['comparison', copy.comparisonType], ['evidence', copy.filters.evidence]]]
+    ['type', copy.filters.type, [['all', copy.filters.all], ['plan', copy.filters.plan], ['statement', copy.filters.statement], ['comparison', copy.comparisonType], ['evidence', copy.filters.evidence], ['history', copy.filters.history]]]
   ];
 
   return `${heading(copy.sources.label, copy.sources.title, copy.sources.intro)}
     <div class="filters">${filterOptions.map(([id, label, options]) => `<label>${esc(label)}<select data-filter="${id}">${options.map(([value, name]) => `<option value="${esc(value)}" ${filters[id] === value ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select></label>`).join('')}</div>
     <p class="mini muted" role="status">${records.length} ${esc(copy.sourceCountSuffix)} ${esc(meta.revision)}</p>
-    <div class="sources">${records.map(source => `<article class="panel"><div class="eyebrow">${esc(source.candidate === 'evidence' ? copy.evidenceType : names[source.candidate])} · ${esc(topics.find(topic => topic.id === source.topic).title)}</div><h3>${esc(source.title)}</h3><span class="badge">${esc(source.type === 'plan' ? copy.planType : source.type === 'statement' ? copy.statementType : source.type === 'evidence' ? copy.evidenceType : copy.comparisonType)}</span><p class="source-meta">${esc(source.date)}</p><p class="mini muted">${esc(source.meta)}</p>${link(source.url, copy.openSource)}</article>`).join('') || `<p>${esc(copy.noMatchingSources)}</p>`}</div>
+    <div class="sources">${records.map(source => `<article class="panel"><div class="eyebrow">${esc(source.candidate === 'evidence' ? copy.evidenceType : names[source.candidate])} · ${esc(topics.find(topic => topic.id === source.topic).title)}</div><h3>${esc(source.title)}</h3><span class="badge">${esc(source.type === 'plan' ? copy.planType : source.type === 'statement' ? copy.statementType : source.type === 'evidence' ? copy.evidenceType : source.type === 'history' ? copy.filters.history : copy.comparisonType)}</span><p class="source-meta">${esc(source.date)}</p><p class="mini muted">${esc(source.meta)}</p>${link(source.url, copy.openSource)}</article>`).join('') || `<p>${esc(copy.noMatchingSources)}</p>`}</div>
     <div class="note" style="margin-top:25px">${esc(copy.sourceNote)} ${link(`${root}propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026-segundo-turno`, copy.officialTseIndex)}.</div>`;
 }
 

@@ -32,6 +32,8 @@ As respostas ficam apenas na memória do navegador. Não criar armazenamento de 
 - `statements`: declarações documentadas por candidato e tema;
 - `questions`: perguntas, opções, ordem e ramificações do questionário;
 - `analysis`: textos de método, relações, ressalvas e modelo de impacto;
+- `analysis.impactModel.historyRules`: sinais documentais de histórico e continuidade, separados das regras da proposta atual;
+- `historicalSources`: fontes primárias ou institucionais usadas para contextualizar ações de governo, relatórios e políticas associadas;
 - `editorialSections`: blocos explicativos exibidos na página de método.
 
 ### Interface e comportamento — `dist/js/app.js`
@@ -100,9 +102,29 @@ Assim:
 - `−1`: há uma pressão líquida moderada;
 - `−2`: predominam possíveis pressões.
 
-Essa pontuação é um resumo da leitura das regras, não uma probabilidade, percentual de ganho, estimativa de renda ou previsão de resultado de governo.
+Essa pontuação da proposta é um resumo da leitura das regras atuais, não uma probabilidade, percentual de ganho, estimativa de renda ou previsão de resultado de governo.
 
-### 3.3 Confiança
+### 3.3 Histórico e continuidade
+
+Além das propostas atuais, cada tema pode ter `historyRules`, organizadas por candidato. Cada regra precisa declarar:
+
+- `effect`: `improvement`, `pressure` ou `context`;
+- `delta`: normalmente `+1`, `-1` ou `0`;
+- `sourceId`: ligação com uma entrada de `historicalSources`;
+- `relation`: `direct` para ação direta do candidato/governo, `base` para política do governo ou base associada, ou `context` quando não há autoria pessoal;
+- `when`, `confidence` e `text`, como nas regras atuais.
+
+O cálculo mostrado no card é:
+
+```
+pontuação da proposta = melhorias atuais − pressões atuais
+pontuação histórica = sinais direcionais históricos pertinentes
+leitura combinada = proposta + histórico, limitada entre −3 e +3
+```
+
+Regras `context` têm `delta: 0`: aparecem para o visitante entender continuidade, orientação ou controvérsia, mas não alteram a pontuação. Isso é importante para não transformar um ato do governo, uma posição de base ou um relatório parlamentar em autoria pessoal automática. Relatórios de CPI, denúncias e alegações devem informar claramente seu status; não devem ser descritos como condenação judicial.
+
+### 3.4 Confiança
 
 Cada regra possui `confidence`: `low`, `medium` ou `high`. Quando várias regras são ativadas, o site exibe o maior nível encontrado entre elas.
 
@@ -112,7 +134,7 @@ Use:
 - `medium` quando houver evidência razoável, mas a execução ou o contexto puder alterar o efeito;
 - `low` quando a leitura depender de detalhes não informados, implementação local ou hipótese plausível.
 
-### 3.4 Onde modificar uma pontuação
+### 3.5 Onde modificar uma pontuação
 
 1. Abra `dist/js/content.js`.
 2. Procure `analysis.impactModel.topics`.
@@ -123,17 +145,11 @@ Use:
 
 Não invente novos `field` ou `topic` sem conferir como eles são usados no restante do código. Os IDs atuais dos candidatos são `lula` e `flavio`; os IDs dos temas estão no array `topics`.
 
-### 3.5 Teste experimental de 13/10/2026
+### 3.6 Backups e reversão
 
-Esta versão contém regras experimentais para tornar visível o efeito da revisão das fontes:
+O modelo anterior à inclusão do histórico está preservado na tag `backup-before-history-model-20261013`. O backup do modelo experimental anterior está em `backup-before-external-model-test-20261013`.
 
-- uma família com renda doméstica nas duas faixas mais baixas, quatro ou mais moradores e despesas essenciais acima de 70% ativa uma leitura adicional no tema de custo de vida;
-- uma pessoa em escala 6×1 que também informou responsabilidade de cuidado ativa uma leitura adicional no tema de trabalho;
-- região mais raça/cor preta ou parda eleva a relevância editorial de segurança para alta, sem alterar a taxa estatística nem transformar desigualdade populacional em risco individual.
-
-Essas regras servem para teste de funcionamento e ainda não são uma versão metodológica definitiva. A página identifica o estado como `modelo experimental`. O ponto de restauração anterior está marcado no Git com `backup-before-external-model-test-20261013`, apontando para a versão imediatamente anterior ao teste.
-
-Para desfazer o experimento no trabalho local, compare com essa tag e restaure os arquivos alterados conscientemente. Não use reset destrutivo em trabalho que contenha mudanças de outra pessoa; prefira criar uma branch a partir da tag ou reverter o commit experimental.
+Para desfazer esta revisão, compare com a tag correspondente e reverta conscientemente os arquivos alterados. Não use reset destrutivo em trabalho que contenha mudanças de outra pessoa; prefira criar uma branch a partir da tag ou reverter o commit.
 
 ## 4. Conteúdo: como editar
 

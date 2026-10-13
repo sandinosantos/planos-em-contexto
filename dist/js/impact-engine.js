@@ -101,6 +101,17 @@ window.impactEngine = (() => {
     return score > 0 ? `+${score}` : String(score).replace('-', '−');
   }
 
+  function clampScore(score, limit = 2) {
+    return Math.max(-limit, Math.min(limit, score));
+  }
+
+  function signedDelta(rule) {
+    if (typeof rule.delta === 'number') return rule.delta;
+    if (rule.effect === 'improvement') return 1;
+    if (rule.effect === 'pressure') return -1;
+    return 0;
+  }
+
   function readableValue(value) {
     return Array.isArray(value) ? value.join(', ') : value;
   }
@@ -120,15 +131,28 @@ window.impactEngine = (() => {
     const relevance = relevanceMatches.reduce((max, rule) => Math.max(max, rule.score || 0), 0);
     const rules = (config.candidateRules && config.candidateRules[candidateId]) || [];
     const matchedRules = rules.filter(rule => matches(profile, rule.when));
+    const historyConfig = model.historyRules && model.historyRules[topic.id];
+    const historyRules = (historyConfig && historyConfig[candidateId]) || [];
+    const matchedHistory = historyRules.filter(rule => matches(profile, rule.when));
     const improvements = matchedRules.filter(rule => rule.effect === 'improvement' || (rule.delta || 0) > 0);
     const pressures = matchedRules.filter(rule => rule.effect === 'pressure' || (rule.delta || 0) < 0);
-    const score = Math.max(-2, Math.min(2, improvements.length - pressures.length));
-    const confidence = matchedRules.reduce((best, rule) => confidenceRank(rule.confidence) > confidenceRank(best) ? rule.confidence : best, 'low');
+    const historyImprovements = matchedHistory.filter(rule => rule.effect === 'improvement' || (rule.delta || 0) > 0);
+    const historyPressures = matchedHistory.filter(rule => rule.effect === 'pressure' || (rule.delta || 0) < 0);
+    const historyContext = matchedHistory.filter(rule => rule.effect === 'context' || signedDelta(rule) === 0);
+    const proposalScore = clampScore(matchedRules.reduce((total, rule) => total + signedDelta(rule), 0));
+    const historyScore = clampScore(matchedHistory.reduce((total, rule) => total + signedDelta(rule), 0));
+    const score = clampScore(proposalScore + historyScore, 3);
+    const allMatched = [...matchedRules, ...matchedHistory];
+    const confidence = allMatched.reduce((best, rule) => confidenceRank(rule.confidence) > confidenceRank(best) ? rule.confidence : best, 'low');
 
     return {
       score,
       scoreText: formatScore(score),
-      scoreLabel: outcomeLabel(improvements, pressures),
+      proposalScore,
+      proposalScoreText: formatScore(proposalScore),
+      historyScore,
+      historyScoreText: formatScore(historyScore),
+      scoreLabel: outcomeLabel([...improvements, ...historyImprovements], [...pressures, ...historyPressures]),
       relevance,
       relevanceText: relevanceLabel(relevance),
       confidence,
@@ -136,6 +160,24 @@ window.impactEngine = (() => {
       reasons: matchedRules.map(rule => rule.text),
       improvements: improvements.map(rule => rule.text),
       pressures: pressures.map(rule => rule.text),
+      historyImprovements: historyImprovements.map(rule => ({
+        text: rule.text,
+        sourceId: rule.sourceId,
+        relation: rule.relation || 'context',
+        confidence: rule.confidence
+      })),
+      historyPressures: historyPressures.map(rule => ({
+        text: rule.text,
+        sourceId: rule.sourceId,
+        relation: rule.relation || 'context',
+        confidence: rule.confidence
+      })),
+      historyContext: historyContext.map(rule => ({
+        text: rule.text,
+        sourceId: rule.sourceId,
+        relation: rule.relation || 'context',
+        confidence: rule.confidence
+      })),
       relevanceReasons: relevanceMatches.map(rule => rule.reason),
       signals: signals(topic.id, profile)
     };

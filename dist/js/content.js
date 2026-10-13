@@ -17,7 +17,7 @@ window.siteContent = {
     pageTitle: 'Planos em Contexto',
     description: 'Propostas e declarações públicas em contexto. Uma leitura informativa, com fontes e incertezas, a partir de respostas opcionais.',
     themeColor: '#f3f1eb',
-    revision: '13/10/2026 · modelo experimental'
+    revision: '13/10/2026 · modelo histórico-documental'
   },
 
   navigation: [
@@ -53,7 +53,7 @@ window.siteContent = {
       title: 'Fontes abertas',
       description: 'Planos e publicações. Leia no original.'
     },
-    note: 'Modelo experimental para teste: esta versão aplica regras adicionais de interseção entre renda da casa, moradores, despesas essenciais e jornada. Não é recomendação de voto nem previsão de resultados. As respostas ficam apenas na memória desta página e se apagam ao recarregar. Não pedimos nome, CPF ou endereço.'
+    note: 'Modelo histórico-documental: além das propostas atuais, a leitura mostra sinais documentados de ações diretas, políticas de governo associado e continuidade de base, sempre com a relação e o status da evidência explícitos. Não é recomendação de voto nem previsão de resultados. As respostas ficam apenas na memória desta página e se apagam ao recarregar. Não pedimos nome, CPF ou endereço.'
   },
 
   pages: {
@@ -96,12 +96,17 @@ window.siteContent = {
     tradeoff: 'Contrapartida e limite',
     comparisonSource: 'Fonte do comparativo',
     profileImpactLabel: 'Como isso pode tocar o seu perfil',
-    profileImpactIntro: 'Relacionamos mecanismos das propostas às respostas que você informou. Melhorias e pressões aparecem separadamente; não calculamos uma nota geral nem prevemos o que acontecerá com você.',
+    profileImpactIntro: 'Relacionamos mecanismos das propostas às respostas que você informou e separamos proposta atual de histórico/continuidade. A pontuação é apenas uma régua editorial de direção, não uma probabilidade nem uma recomendação.',
     profileSignals: 'Respostas consideradas',
     impactScoreLabel: 'Direção da leitura',
+    currentProposalLabel: 'Proposta atual',
+    historicalContextLabel: 'Histórico e continuidade',
+    historicalContextTitle: 'Contexto documentado · não é autoria automática',
+    combinedScoreLabel: 'Leitura combinada',
+    historicalContextNote: 'Este bloco pode incluir ação direta do candidato, política do governo associado ou posição da base/coalizão. A relação é explicitada e não transforma contexto em prova de responsabilidade pessoal.',
     relevanceLabel: 'Relevância para o perfil',
     confidenceLabel: 'Confiança da leitura',
-    scoreScale: 'sem soma entre temas',
+    scoreScale: 'por tema; não somamos entre temas',
     relevanceLevels: { none: 'não identificada', low: 'baixa', medium: 'média', high: 'alta' },
     confidenceLevels: { low: 'baixa', medium: 'média', high: 'alta' },
     noSpecificRule: 'Nenhum mecanismo específico foi acionado pelas respostas informadas; mostramos a análise geral do tema.',
@@ -132,7 +137,7 @@ window.siteContent = {
     context: 'Contexto:',
     openOriginal: 'Abrir publicação original',
     openSource: 'Abrir fonte original',
-    filters: { candidate: 'Candidato', topic: 'Tema', type: 'Tipo', all: 'Todos', plan: 'Plano de governo', statement: 'Declaração oficial', evidence: 'Estudo ou dado público' },
+    filters: { candidate: 'Candidato', topic: 'Tema', type: 'Tipo', all: 'Todos', plan: 'Plano de governo', statement: 'Declaração oficial', evidence: 'Estudo ou dado público', history: 'Histórico e continuidade' },
     sourceCountSuffix: 'referências · consultadas em',
     sourceNote: 'Datas de publicação não são automaticamente datas da fala. “Não localizado” nos cards registra uma lacuna da revisão, sem criar links ou atribuições. Para os planos, consulte também',
     officialTseIndex: 'o índice oficial do TSE',
@@ -396,6 +401,27 @@ window.siteContent = {
 
   answersToSkip: ['Não sei', 'Prefiro não responder'],
 
+  /*
+   * Histórico e continuidade
+   *
+   * Estas fontes não são misturadas silenciosamente às promessas. Cada sinal
+   * declara quem praticou o ato, qual é a relação com o candidato e o status
+   * da evidência. Sinais de "context" aparecem para leitura, mas não alteram
+   * a pontuação; apenas sinais direcionais, quando pertinentes ao perfil,
+   * alteram a régua histórica.
+   */
+  historicalSources: [
+    { id: 'hist-minimum-wage', topic: 'work', candidate: 'lula', title: 'Política de valorização do salário mínimo', institution: 'Presidência da República · Lei nº 14.663/2023', date: '2023', relation: 'ação direta do governo Lula', status: 'lei publicada', note: 'Estabeleceu regra de valorização do salário mínimo e alterou a tabela mensal do Imposto de Renda. O efeito para cada pessoa depende da faixa e de outras regras.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14663.htm' },
+    { id: 'hist-pede-meia', topic: 'education', candidate: 'lula', title: 'Incentivo-financeiro para permanência no ensino médio', institution: 'Presidência da República · Lei nº 14.818/2024', date: '2024', relation: 'ação direta do governo Lula', status: 'lei publicada', note: 'Criou o incentivo para estudantes do ensino médio público de baixa renda. A implementação e os critérios concretos condicionam o alcance.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2024/lei/l14818.htm' },
+    { id: 'hist-mcmv', topic: 'housing', candidate: 'lula', title: 'Retomada do Minha Casa, Minha Vida', institution: 'Ministério das Cidades · Lei nº 14.620/2023', date: '2023', relation: 'ação direta do governo Lula', status: 'programa e lei publicados', note: 'Retomou o programa habitacional com novas regras. Não equivale a elegibilidade nem garante oferta no município da pessoa.', url: 'https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/sobre-o-minha-casa-minha-vida-1' },
+    { id: 'hist-casa-verde-amarela', topic: 'housing', candidate: 'flavio', title: 'Casa Verde e Amarela', institution: 'Presidência da República · Lei nº 14.118/2021', date: '2021', relation: 'política do governo Bolsonaro e base associada', status: 'lei publicada; contexto de continuidade', note: 'Criou o Casa Verde e Amarela. A existência do programa não prova a autoria pessoal de Flávio nem permite inferir resultado habitacional para cada família.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14118.htm' },
+    { id: 'hist-icms', topic: 'cost', candidate: 'flavio', title: 'Limitação de ICMS sobre combustíveis, energia e comunicações', institution: 'Presidência da República · Lei Complementar nº 194/2022', date: '2022', relation: 'política do governo Bolsonaro e base associada', status: 'lei publicada; efeito com contrapartidas fiscais', note: 'Pode reduzir tributos em alguns consumos, mas envolve perda de receita de estados e municípios. O sinal é contextual e não atribui a medida diretamente ao candidato.', url: 'https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp194.htm' },
+    { id: 'hist-cpi-pandemic', topic: 'health', candidate: 'flavio', title: 'Relatório final da CPI da Pandemia', institution: 'Senado Federal · Comissão Parlamentar de Inquérito', date: '2021', relation: 'contexto do governo Bolsonaro; não autoria pessoal de Flávio', status: 'relatório parlamentar aprovado; alegações e recomendações, não sentença judicial', note: 'O relatório registrou conclusões políticas, recomendações e pedidos de indiciamento sobre condutas na pandemia. Ele não é condenação judicial e não demonstra responsabilidade pessoal de Flávio Bolsonaro.', url: 'https://www2.senado.leg.br/jspui/handle/id/607974?mode=full' },
+    { id: 'hist-anticrime', topic: 'security', candidate: 'flavio', title: 'Pacote Anticrime', institution: 'Presidência da República · Lei nº 13.964/2019', date: '2019', relation: 'política do governo Bolsonaro e base associada', status: 'lei publicada; resultado criminal não automático', note: 'Endureceu e reorganizou dispositivos penais e processuais. A mudança de lei não prova, sozinha, redução de crimes nem melhora para um grupo específico.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2019/lei/l13964.htm' },
+    { id: 'hist-pna', topic: 'education', candidate: 'flavio', title: 'Política Nacional de Alfabetização', institution: 'Presidência da República · Decreto nº 9.765/2019', date: '2019', relation: 'política do governo Bolsonaro e base associada', status: 'decreto; contexto de orientação educacional', note: 'Registra uma orientação de política educacional associada ao governo anterior. Não é avaliação de resultado nem prova de que o candidato pessoalmente executaria a mesma política.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2019/decreto/d9765.htm' },
+    { id: 'hist-6x1-debate', topic: 'work', candidate: 'lula', title: 'Debate legislativo sobre redução da jornada', institution: 'Câmara dos Deputados', date: '2025', relation: 'contexto legislativo da pauta defendida por Lula', status: 'tramitação; não é lei em vigor', note: 'A comissão aprovou texto-base para reduzir a jornada máxima para 40 horas. A tramitação não garante aprovação final nem aplicação automática.', url: 'https://www.camara.leg.br/noticias/1277012-comissao-aprova-texto-base-da-pec-que-acaba-com-a-escala-6x1' }
+  ],
+
   analysis: {
     relations: {
       work: '[Interpretação] As propostas tratam de remuneração, contratação e jornada. A relação com sua rotina depende do vínculo de trabalho e das regras aplicáveis à categoria.',
@@ -543,6 +569,52 @@ window.siteContent = {
             ]
           }
         }
+      },
+
+      historyRules: {
+        work: {
+          lula: [
+            { effect: 'improvement', delta: 1, sourceId: 'hist-minimum-wage', relation: 'direct', when: [{ field: 'personalIncome', op: 'incomeIndexAtMost', value: 2 }], confidence: 'high', text: 'Histórico direto: a política de valorização do salário mínimo adotada no governo Lula é mais pertinente para faixas pessoais baixas; o sinal não calcula reajuste líquido nem garante ganho individual.' },
+            { effect: 'context', delta: 0, sourceId: 'hist-6x1-debate', relation: 'context', when: [{ field: 'workSchedule', op: 'equalsAny', values: ['Escala 6×1 ou trabalho frequente aos fins de semana'] }], confidence: 'medium', text: 'Contexto legislativo: a redução da jornada esteve em tramitação no Congresso; isso reforça a relevância da pauta, mas ainda não equivale a uma regra vigente.' }
+          ],
+          flavio: []
+        },
+        cost: {
+          lula: [
+            { effect: 'improvement', delta: 1, sourceId: 'hist-minimum-wage', relation: 'direct', when: [{ field: 'personalIncome', op: 'incomeIndexAtMost', value: 2 }], confidence: 'high', text: 'Histórico direto: a valorização real do salário mínimo e a alteração da tabela do IR têm maior pertinência para faixas pessoais baixas; o efeito concreto depende de emprego, benefício e demais rendimentos.' }
+          ],
+          flavio: [
+            { effect: 'improvement', delta: 1, sourceId: 'hist-icms', relation: 'base', when: [{ field: 'essentialBurden', op: 'equalsAny', values: ['De 71% a 90%', 'Mais de 90%'] }], confidence: 'medium', text: 'Histórico da base governamental: o limite de ICMS de 2022 podia aliviar alguns preços essenciais, mas veio com disputa sobre perda de receita pública. É um possível alívio de curto prazo com contrapartida fiscal, não uma vantagem líquida garantida.' }
+          ]
+        },
+        housing: {
+          lula: [
+            { effect: 'improvement', delta: 1, sourceId: 'hist-mcmv', relation: 'direct', when: [{ field: 'housing', op: 'equalsAny', values: ['Imóvel alugado', 'Imóvel cedido ou compartilhado', 'Moradia com necessidade de regularização'] }], confidence: 'high', text: 'Histórico direto: a retomada do Minha Casa, Minha Vida é especialmente pertinente para quem aluga, compartilha ou precisa regularizar a moradia; não prova elegibilidade nem oferta local.' }
+          ],
+          flavio: [
+            { effect: 'context', delta: 0, sourceId: 'hist-casa-verde-amarela', relation: 'base', when: [{ field: 'housing', op: 'present' }], confidence: 'medium', text: 'Continuidade de base: o governo Bolsonaro criou o Casa Verde e Amarela. Isso ajuda a comparar a tradição de política habitacional, mas não demonstra que o candidato pessoalmente executaria a mesma política nem que ela funcionou para este domicílio.' }
+          ]
+        },
+        health: {
+          lula: [],
+          flavio: [
+            { effect: 'pressure', delta: -1, sourceId: 'hist-cpi-pandemic', relation: 'context', when: [{ field: 'healthAccess', op: 'equalsAny', values: ['Principalmente pelo SUS', 'SUS e plano de saúde', 'Tem dificuldade frequente para conseguir atendimento'] }], confidence: 'medium', text: 'Contexto de governo e base: o relatório parlamentar da CPI da Pandemia registrou críticas, recomendações e pedidos de indiciamento sobre condutas na crise sanitária. Isso pode ser relevante para quem depende do SUS, mas não é sentença judicial nem prova de responsabilidade pessoal de Flávio Bolsonaro.' }
+          ]
+        },
+        education: {
+          lula: [
+            { effect: 'improvement', delta: 1, sourceId: 'hist-pede-meia', relation: 'direct', when: [{ field: 'educationContext', op: 'hasAny', values: ['Estudante em escola pública'] }], confidence: 'high', text: 'Histórico direto: o Pé-de-Meia criou incentivo financeiro para permanência de estudantes do ensino médio público de baixa renda; o alcance depende dos critérios e da implementação.' }
+          ],
+          flavio: [
+            { effect: 'context', delta: 0, sourceId: 'hist-pna', relation: 'base', when: [{ field: 'educationContext', op: 'present' }], confidence: 'low', text: 'Contexto de orientação da base: a Política Nacional de Alfabetização foi instituída no governo Bolsonaro. O registro mostra uma preferência institucional, não um resultado educacional nem uma promessa específica para sua casa.' }
+          ]
+        },
+        security: {
+          lula: [],
+          flavio: [
+            { effect: 'context', delta: 0, sourceId: 'hist-anticrime', relation: 'base', when: [{ field: 'region', op: 'present' }], confidence: 'medium', text: 'Contexto de segurança: o Pacote Anticrime reorganizou e endureceu regras penais no governo Bolsonaro. A mudança legal não permite concluir, sozinha, redução de homicídios ou menor risco para uma pessoa da região.' }
+          ]
+        }
       }
     }
   },
@@ -551,8 +623,8 @@ window.siteContent = {
     ['01 · Pessoa e domicílio', 'Renda pessoal não é tratada como sinônimo de condição econômica. A leitura combina renda disponível da casa, número de moradores, crianças, pressão de despesas essenciais e moradia. Perguntas sobre empresa própria só aparecem quando fizerem sentido; pró-labore e dividendos são distinguidos por composição aproximada, sem solicitar valores exatos. Os intervalos são aproximações editoriais, não classes sociais nem critérios automáticos de elegibilidade.'],
     ['02 · Mesma régua para ambos', 'Comparamos compromissos por tema nos planos de 2026 publicados pelo TSE. Resumos não são citações. O recorte não substitui os documentos completos e não equivale a endosso do TSE às propostas.'],
     ['03 · Tipos de informação', 'Plano de governo identifica o documento eleitoral. Declaração oficial identifica fala ou comunicação publicada em canal oficial, com autoria, data disponível e contexto. Comunicação de campanha não é apresentada como transcrição pessoal.'],
-    ['04 · Efeitos sem nota geral', 'Possíveis melhorias e possíveis pressões aparecem separadamente por mecanismo. Relevância, direção e confiança não são somadas entre temas. A leitura não calcula benefício, preço, renda futura, preferência partidária ou resultado de governo.'],
-    ['05 · Lacunas e incertezas', 'Não localizado significa que a revisão não encontrou uma declaração confiável para aquele candidato e tema. Não demonstra ausência de posição. Diferenciamos intenção, aprovação de lei, financiamento e implementação; não presumimos resultados. Sites de comparação, simuladores e campanhas entram como fontes secundárias de descoberta e método; a evidência principal continua sendo o documento original.'],
+    ['04 · Efeitos sem nota geral', 'Possíveis melhorias e possíveis pressões aparecem separadamente por mecanismo. A régua mostra a pontuação da proposta atual, a pontuação histórica e a leitura combinada por tema; não somamos temas, não calculamos benefício, preço, renda futura, preferência partidária ou resultado de governo.'],
+    ['05 · Lacunas e incertezas', 'Não localizado significa que a revisão não encontrou uma declaração confiável para aquele candidato e tema. Não demonstra ausência de posição. Histórico direto, política de governo associado e contexto de base/coalizão aparecem com rótulos diferentes: uma ação do governo ou relatório parlamentar não vira autoria pessoal automaticamente. Diferenciamos intenção, aprovação de lei, financiamento e implementação; não presumimos resultados. Sites de comparação, simuladores e campanhas entram como fontes secundárias de descoberta e método; a evidência principal continua sendo o documento original.'],
     ['06 · Evidência e risco estatístico', 'Planos e declarações documentam compromissos; estudos e dados oficiais avaliam mecanismos e resultados observados. Em segurança, mostramos taxas anuais por 100 mil habitantes e a porcentagem equivalente para a macrorregião. Quando disponível, o recorte racial usa taxas do Atlas da Violência 2025. Taxa populacional não é previsão pessoal e não substitui dados de município, bairro, idade ou rotina.'],
     ['07 · Privacidade', 'As respostas são processadas na memória do navegador. O código da análise não envia respostas, não usa cookies nem as guarda em armazenamento local. Recarregar ou apagar respostas remove esse perfil. Links externos têm suas próprias políticas; a hospedagem e o acesso ao site podem registrar dados técnicos.'],
     ['08 · Escopo', 'A análise é informativa: não prevê o que acontecerá, não recomenda voto e não apresenta promessas como efeitos certos. O conjunto de temas e declarações é um recorte editorial, com cobertura que pode variar conforme as fontes localizadas.']
