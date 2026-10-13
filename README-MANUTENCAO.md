@@ -166,6 +166,17 @@ O `candidate` e o `topic` precisam usar IDs já existentes. O `id` deve ser úni
 
 Registre fontes em `sources` e mantenha o endereço original. Os comparativos usam [Brasil do Futuro · Voto Informado 2026](https://brasil-futuro.vercel.app/), registrado em `sources.comparative`. A fonte complementar [Como isso me afeta?](https://como-isso-me-afeta.vercel.app/) fica em `sources.supplemental` e em `evidenceSources`: ajuda a separar regras vigentes, cálculos por faixa e cenários de proposta, mas não substitui leis, planos do TSE ou estudos originais.
 
+Na revisão de 13/10/2026, também foram catalogados sites externos de comparação, simulação, guias documentais e campanha. Eles ficam no array `evidenceSources` com uma nota de função e confiabilidade. Use-os para localizar documentos, entender um cálculo ou comparar uma apresentação; não os trate como fonte primária nem como placar neutro. Em especial, ferramentas com linguagem partidária, calculadoras ilustrativas e páginas de advocacy devem ser conferidas no link original antes de alterar uma análise.
+
+Resumo da triagem das fontes externas:
+
+- `flaviofalou.netlify.app`, `futurobr-revisao.netlify.app`, `riscoreal.com.br` e `vncsvr.github.io/quanto-a-6x1-tira/` ajudam a explicitar declarações, hipóteses, cenários e cálculos, com níveis diferentes de independência e revisão.
+- `comparabrasil.app` e `lulaxbolsonaro.com` reúnem indicadores e links de origem, mas usam janelas e seleções editoriais próprias; não permitem atribuir causalidade presidencial sem análise adicional.
+- `quemcomparavotalula13.netlify.app`, `voteconsciente.github.io/eleicoes2026/`, `o-que-esta-em-jogo.vercel.app` e `amigosdoflavio.com` têm enquadramento explícito de campanha ou advocacy. São pistas de pesquisa, não evidência neutra.
+- `guiadenunciaflavio.github.io` é útil para abrir documentos página a página e separar alegação de fato registrado, mas o documento original e o status processual prevalecem.
+
+Ao aproveitar um número encontrado nesses sites, copie para o projeto a fonte primária, o período, a unidade, o denominador e a ressalva metodológica — não apenas o número apresentado no card.
+
 Uma análise deve explicar:
 
 1. qual é a diferença entre as propostas;
