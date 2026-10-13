@@ -17,7 +17,7 @@ window.siteContent = {
     pageTitle: 'Planos em Contexto',
     description: 'Propostas e declarações públicas em contexto. Uma leitura informativa, com fontes e incertezas, a partir de respostas opcionais.',
     themeColor: '#f3f1eb',
-    revision: '12/10/2026'
+    revision: '13/10/2026'
   },
 
   navigation: [
@@ -153,6 +153,11 @@ window.siteContent = {
       name: 'Brasil do Futuro · Voto Informado 2026',
       url: 'https://brasil-futuro.vercel.app/',
       note: 'Resumos temáticos publicados pela fonte indicada; usados aqui como insumo comparativo, com interpretação editorial separada.'
+    },
+    supplemental: {
+      name: 'Como isso me afeta? · medidas e contexto público',
+      url: 'https://como-isso-me-afeta.vercel.app/',
+      note: 'Fonte complementar com medidas vigentes, cálculos por faixa de renda, recortes territoriais e distinções entre propostas; conferir cada norma na fonte original.'
     }
   },
 
@@ -215,7 +220,7 @@ window.siteContent = {
         tradeoff: 'A primeira depende de coordenação e recursos públicos; a segunda depende de espaço fiscal, desenho tributário e transmissão do crédito para a economia real.',
         profileImpact: {
           lula: 'Para quem depende do salário e trabalha em emprego formal, a valorização salarial e a redução da jornada poderiam melhorar renda e tempo disponível se aprovadas. Para empresas e empregadores, a adaptação pode pressionar custos e contratação.',
-          flavio: 'Para quem busca emprego ou administra um pequeno negócio, menor custo de contratação e mais crédito poderiam ampliar oportunidades. Para trabalhadores, mais negociação pode trazer flexibilidade, mas também menos previsibilidade se não houver proteção coletiva.',
+          flavio: 'Para quem busca emprego ou administra um pequeno negócio, menor custo de contratação e mais crédito poderiam ampliar oportunidades. Para trabalhadores, um regime mais flexível ou por hora sem teto semanal claramente definido pode trazer flexibilidade, mas também menos previsibilidade; isso depende da regra aprovada e não é tratado como efeito automático.',
           caveat: 'O efeito depende do vínculo, do setor, do tamanho da empresa e das regras aprovadas.'
         }
       },
@@ -232,8 +237,8 @@ window.siteContent = {
         flavio: 'Ponto forte relativo: é mais explícito no objetivo de reduzir o imposto embutido no consumo e simplificar o sistema.',
         tradeoff: 'A comparação não permite concluir qual reduziria mais os preços ou impostos: isso depende de alíquotas, compensações, arrecadação e comportamento dos preços.',
         profileImpact: {
-          lula: 'Para famílias de renda menor ou que gastam quase tudo em consumo, uma combinação de menor carga sobre consumo e transferência de renda poderia ampliar o orçamento disponível. Faixas de renda e patrimônio mais altos poderiam suportar maior tributação se a mudança fosse aprovada.',
-          flavio: 'Para famílias que comprometem grande parte do orçamento com compras e contas, uma redução do imposto sobre consumo poderia aliviar preços se fosse repassada. Ajustes fiscais ou mudanças em benefícios podem criar pressão compensatória, dependendo do desenho.',
+          lula: 'Para famílias de renda menor ou que gastam quase tudo em consumo, uma combinação de menor carga sobre consumo e transferência de renda poderia ampliar o orçamento disponível. A isenção do IR até R$ 5.000 aparece como regra vigente no contexto complementar; por isso, sua manutenção não deve ser contada como ganho novo sem uma mudança adicional.',
+          flavio: 'Para famílias que comprometem grande parte do orçamento com compras e contas, uma redução do imposto sobre consumo poderia aliviar preços se fosse repassada. O contexto complementar mostra que alíquotas estaduais e regras atuais já formam uma base diferente por estado; ajustes fiscais ou mudanças em benefícios podem criar pressão compensatória, dependendo do desenho.',
           caveat: 'Renda informada não mostra gastos, patrimônio, impostos pagos ou acesso a benefícios; não calculamos economia individual.'
         }
       },
@@ -305,7 +310,7 @@ window.siteContent = {
         tradeoff: 'A primeira depende de cooperação e investigação qualificada; a segunda depende de mudanças legais, capacidade prisional, controle de tecnologia e avaliação de efeitos sobre violência e direitos.',
         profileImpact: {
           lula: 'Para qualquer perfil, integração, investigação e proteção contra violência podem melhorar a segurança coletiva se forem executadas. Para grupos expostos a violência doméstica ou discriminação, a ênfase específica pode ser mais relevante.',
-          flavio: 'Para quem prioriza resposta penal rápida, fronteiras e vigilância, medidas mais duras podem parecer mais diretamente alinhadas. A pressão possível inclui efeitos sobre encarceramento, direitos, custos e erros de reconhecimento tecnológico.',
+          flavio: 'Para quem prioriza resposta penal rápida, fronteiras e vigilância, medidas mais duras podem parecer mais diretamente alinhadas. A pressão possível inclui efeitos sobre encarceramento, direitos, custos e erros de reconhecimento tecnológico; a fonte complementar destaca que esses mecanismos precisam ser avaliados separadamente, não como redução garantida do crime.',
           caveat: 'A região informada é apenas uma macrorregião: não permite inferir risco pessoal, crime no bairro ou qual política reduziria sua exposição.'
         }
       },
@@ -331,7 +336,13 @@ window.siteContent = {
     { id: 'ev-security-total', topic: 'security', title: 'Taxa de homicídios por região e UF', institution: 'DATASUS/SIM · elaboração FAPESPA', date: '2023', note: 'Taxas anuais por 100 mil habitantes; dados preliminares extraídos em novembro de 2024.', url: 'https://fapespa.pa.gov.br/sistemas/pcn2024/tabelas/7-seguranca/1-taxa-de-homicidios-total-por-100000-habitantes-2019-2023.htm' },
     { id: 'ev-security-race', topic: 'security', title: 'Taxas regionais de homicídios de negros e não negros', institution: 'Ipea e FBSP · Atlas da Violência 2025', date: '2025', note: 'Recorte regional com dados de 2023; negros correspondem a pessoas pretas e pardas.', url: 'https://forumseguranca.org.br/wp-content/uploads/2025/05/atlas-violencia-2025.pdf' },
     { id: 'ev-security-women', topic: 'security', title: 'Avaliação da efetividade da Lei Maria da Penha', institution: 'Ipea', date: '2015', note: 'Avaliação por diferenças em diferenças; efeitos heterogêneos conforme serviços protetivos locais.', url: 'https://repositorio.ipea.gov.br/bitstream/11058/3538/1/td_2048.pdf' },
-    { id: 'ev-security-face', topic: 'security', title: 'Efeitos demográficos no reconhecimento facial', institution: 'NIST', date: '2019', note: 'Avalia diferenças de falsos positivos e falsos negativos por idade, sexo e raça.', url: 'https://www.nist.gov/publications/face-recognition-vendor-test-part-3-demographic-effects' }
+    { id: 'ev-security-face', topic: 'security', title: 'Efeitos demográficos no reconhecimento facial', institution: 'NIST', date: '2019', note: 'Avalia diferenças de falsos positivos e falsos negativos por idade, sexo e raça.', url: 'https://www.nist.gov/publications/face-recognition-vendor-test-part-3-demographic-effects' },
+    { id: 'ev-cima-work', topic: 'work', title: 'Medidas e cenários de jornada, contrato PJ e trabalho por aplicativo', institution: 'Como isso me afeta?', date: '2026', note: 'Apresenta a regra atual de jornada e separa cenários de contrato por hora, pejotização e trabalho em plataforma; usamos como mapa complementar, não como fonte primária do plano.', url: 'https://como-isso-me-afeta.vercel.app/' },
+    { id: 'ev-cima-cost', topic: 'cost', title: 'Cálculos de IR, salário mínimo e ICMS por estado', institution: 'Como isso me afeta?', date: '2026', note: 'Exibe valores e cálculos de medidas vigentes por faixa de renda e estado; os números devem ser conferidos na lei e na fonte oficial correspondente.', url: 'https://como-isso-me-afeta.vercel.app/' },
+    { id: 'ev-cima-housing', topic: 'housing', title: 'Faixas de acesso a moradia e tarifa social', institution: 'Como isso me afeta?', date: '2026', note: 'Relaciona Minha Casa Minha Vida, tarifa social de energia e perfil de renda; usamos para distinguir regra atual de promessa futura.', url: 'https://como-isso-me-afeta.vercel.app/' },
+    { id: 'ev-cima-health', topic: 'health', title: 'Regras atuais e propostas de saúde', institution: 'Como isso me afeta?', date: '2026', note: 'Resume SUS, pisos constitucionais, filas, prontuário e parcerias; a análise final depende das normas e fontes originais.', url: 'https://como-isso-me-afeta.vercel.app/' },
+    { id: 'ev-cima-education', topic: 'education', title: 'Regras atuais e cenários de educação', institution: 'Como isso me afeta?', date: '2026', note: 'Resume escolaridade obrigatória, pisos de investimento e alternativas de oferta; não substitui avaliação de evidência educacional.', url: 'https://como-isso-me-afeta.vercel.app/' },
+    { id: 'ev-cima-security', topic: 'security', title: 'Regras penais e medidas de segurança em contexto', institution: 'Como isso me afeta?', date: '2026', note: 'Distingue competências, propostas penais, reconhecimento facial e limites da inferência sobre risco individual.', url: 'https://como-isso-me-afeta.vercel.app/' }
   ],
 
   incomeBands: [

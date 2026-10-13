@@ -164,7 +164,7 @@ O `candidate` e o `topic` precisam usar IDs já existentes. O `id` deve ser úni
 
 ### 4.4 Fontes e análises comparativas
 
-Registre fontes em `sources` e mantenha o endereço original. Os comparativos também usam [Brasil do Futuro · Voto Informado 2026](https://brasil-futuro.vercel.app/), registrado em `sources.comparative`.
+Registre fontes em `sources` e mantenha o endereço original. Os comparativos usam [Brasil do Futuro · Voto Informado 2026](https://brasil-futuro.vercel.app/), registrado em `sources.comparative`. A fonte complementar [Como isso me afeta?](https://como-isso-me-afeta.vercel.app/) fica em `sources.supplemental` e em `evidenceSources`: ajuda a separar regras vigentes, cálculos por faixa e cenários de proposta, mas não substitui leis, planos do TSE ou estudos originais.
 
 Uma análise deve explicar:
 

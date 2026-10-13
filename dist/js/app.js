@@ -245,6 +245,15 @@ function sourceRecords() {
       meta: sourceConfig.comparative.note,
       url: sourceConfig.comparative.url
     }))),
+    ...topics.map(topic => ({
+      candidate: 'evidence',
+      topic: topic.id,
+      type: 'evidence',
+      title: `${sourceConfig.supplemental.name} · ${topic.title}`,
+      date: `Consultado em ${meta.revision}`,
+      meta: sourceConfig.supplemental.note,
+      url: sourceConfig.supplemental.url
+    })),
     ...evidenceSources.map(source => ({
       candidate: 'evidence',
       topic: source.topic,
